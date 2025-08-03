@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Management</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2a5298;
+            --secondary: #1e3c72;
+            --accent: #ff9d00;
+            --success: #4caf50;
+            --error: #f44336;
+            --bg: #f5f7fa;
+            --white: #fff;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            font-family: 'Roboto', Arial, sans-serif;
+            letter-spacing: 0.02em;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            justify-content: center;
+        }
+        .main-card {
+            background: var(--white);
+            box-shadow: 0 4px 32px rgba(44,62,80,.2), 0 1.5px 12px rgba(30,60,114,0.07);
+            border-radius: 18px;
+            padding: 2.5rem 2.25rem;
+            margin: 2rem 0;
+            width: 96%;
+            max-width: 500px;
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        h3 {
+            margin-top: 1.8rem;
+            color: var(--secondary);
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-left: 4px solid var(--accent);
+            padding-left: 9px;
+            margin-bottom: 0.6rem;
+        }
+        label {
+            font-weight: 500;
+            color: #444;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin: 0.4em 0 1em;
+            box-sizing: border-box;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 5px;
+            transition: border 0.2s;
+            font-size: 1rem;
+            background: #fbfbfb;
+        }
+        input[type="text"]:focus, input[type="number"]:focus {
+            border: 1.5px solid var(--primary);
+            outline: none;
+            background: #fff;
+        }
+        button {
+            background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            padding: 10px 22px;
+            margin: 0.25em 0 1.1em;
+            font-size: 1em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px #2a52981a;
+            transition: background 0.15s, transform 0.1s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, var(--accent) 10%, var(--primary) 100%);
+            transform: translateY(-2px) scale(1.05);
+        }
+        ul {
+            padding: 0.2em 0 0 1em;
+            list-style-type: disc;
+            color: #333;
+        }
+        li {
+            margin: 0.25em 0;
+            font-size: 1.01rem;
+            border-bottom: 1px dashed #f0f0f0;
+            padding-bottom: 2px;
+        }
+        #categoryDisplay,
+        #productDisplay {
+            margin-top: 0.7em;
+            background: #f9f9f9;
+            color: #2a5298;
+            font-weight: 500;
+            border-radius: 5px;
+            padding: 0.7em 1em;
+            border-left: 3px solid var(--primary);
+        }
+        @media (max-width: 600px) {
+            .main-card {
+                padding: 1rem 0.6rem;
+                max-width: 98vw;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="main-card">
+    <h1>Category Management</h1>
+
+    <h3>Add Category</h3>
+    <input type="text" id="categoryName" placeholder="Enter category name" />
+    <button onclick="addCategory()">Add</button>
+
+    <h3>All Categories</h3>
+    <button onclick="getCategories()">Get Categories</button>
+    <ul id="categoryList"></ul>
+
+    <h3>Delete Category</h3>
+    <input type="text" id="categoryIdToDelete" placeholder="Enter category Id" />
+    <button onclick="deleteCategory()">Delete Category</button>
+
+    <h3>Update Category</h3>
+    <input type="number" id="updateCategoryId" placeholder="Enter category Id" />
+    <input type="text" id="updateCategoryName" placeholder="Enter category New Name" />
+    <button onclick="updateCategory()">Update Category</button>
+
+    <h3>Get Category By Id</h3>
+    <input type="text" id="categoryId" placeholder="Enter category Id" />
+    <button onclick="getCategoryById()">Get Category By Id</button>
+    <div id="categoryDisplay"></div>
+
+    <h1>Product Management</h1>
+    <h3>Add Product</h3>
+    <input type="text" id="productName" placeholder="Enter product name" />
+    <input type="text" id="productDescription" placeholder="Enter product Description" />
+    <input type="number" id="productPrice" placeholder="Enter product Price" />
+    <input type="number" id="productCategoryId" placeholder="Enter category ID" />
+    <button onclick="addProduct()">Add Product</button>
+
+    <h3>All Products</h3>
+    <button onclick="getAllProducts()">Get Products</button>
+    <ul id="productList"></ul>
+
+    <h3>Get Product By Id</h3>
+    <input type="number" id="productId" placeholder="Enter product ID" />
+    <button onclick="getProductById()">Get Product</button>
+    <div id="productDisplay"></div>
+
+    <h3>Delete Product</h3>
+    <input type="number" id="productIdToDelete" placeholder="Enter product ID to delete" />
+    <button onclick="deleteProduct()">Delete Product</button>
+
+    <h3>Update Product</h3>
+    <input type="number" id="updateProductId" placeholder="Enter Product Id" />
+    <input type="text" id="updateProductName" placeholder="Enter Product New Name" />
+    <input type="text" id="updateProductDescription" placeholder="Enter Product New Description" />
+    <input type="text" id="updateProductPrice" placeholder="Enter Product New Price" />
+    <button onclick="updateProduct()">Update Product</button>
+</div>
+<script>
+    const apiBase = 'http://192.168.47.100:8081/api/categories';
+
+    function getCategories() {
+        fetch(apiBase + '/getCategories')
+        .then(response => response.json())
+        .then(data => {
+            const list = document.getElementById('categoryList');
+            list.innerHTML = '';
+            data.forEach(cat => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>ID:${cat.id} | ${cat.name}</strong>`;
+
+                if (cat.product && cat.product.length > 0) {
+                    const productUI = document.createElement('ul');
+                    productUI.style.marginLeft = "1rem";
+
+                    cat.product.forEach(prod => {
+                        const productList = document.createElement('li');
+                        productList.innerHTML = `
+                            <span style="color:#2a5298"><strong>${prod.name}</strong></span> &mdash; ₹${prod.price}
+                            <br>
+                            <span style="font-size:0.98em;color:#666">${prod.description ? prod.description : ""}</span>`;
+                        productUI.appendChild(productList);
+                    });
+
+                    li.appendChild(productUI);
+                } else {
+                    li.innerHTML += `<br><span style="color:#999;font-size:0.97em">No products</span>`;
+                }
+
+                list.appendChild(li);
+            });
+        });
+    }
+
+
+    function getCategoryById() {
+        const id = document.getElementById('categoryId').value;
+
+        fetch(`${apiBase}/getCategoryById/${id}`, {
+            method: 'GET',
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Category not found');
+            }
+            return response.json();
+        })
+        .then(cat => {
+            const display = document.getElementById('categoryDisplay');
+            display.innerHTML = `
+                <p><strong>ID:</strong> ${cat.id}</p>
+                <p><strong>Name:</strong> ${cat.name}</p>`;
+
+            // Create a container for products
+            const productsContainer = document.createElement('div');
+
+            if (cat.product && cat.product.length > 0) {
+                const title = document.createElement('h4');
+                title.textContent = "Products:";
+                title.style.marginTop = '10px';
+                title.style.color = '#1e3c72';
+                productsContainer.appendChild(title);
+
+                const productList = document.createElement('ul');
+                productList.style.marginLeft = "1rem";
+
+                cat.product.forEach(prod => {
+                    const productItem = document.createElement('li');
+                    productItem.innerHTML = `
+                        <span style="color:#2a5298"><strong>${prod.name}</strong></span> &mdash; ₹${prod.price}
+                        <br>
+                        <span style="font-size:0.98em;color:#666">${prod.description ? prod.description : ""}</span>`;
+                    productList.appendChild(productItem);
+                });
+
+                productsContainer.appendChild(productList);
+            } else {
+                const noProducts = document.createElement('p');
+                noProducts.style.color = '#999';
+                noProducts.textContent = 'No products in this category.';
+                productsContainer.appendChild(noProducts);
+            }
+
+            // Append the products to the display
+            display.appendChild(productsContainer);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('categoryDisplay').innerHTML = '<p style="color:red">Category not found</p>';
+        });
+    }
+
+    function deleteCategory(){
+        const id = document.getElementById('categoryIdToDelete').value;
+        fetch(`${apiBase}/deleteCategoryById/${id}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Category Deleted');
+                getCategories();
+            }
+            else {
+                alert('Failed to delete category');
+            }
+        });
+    }
+
+    function addCategory() {
+        const name = document.getElementById('categoryName').value;
+            fetch(apiBase + '/addCategory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name }),
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Category added');
+                getCategories();
+            }
+        });
+    }
+
+    function updateCategory() {
+    const id = document.getElementById('updateCategoryId').value;
+    const name = document.getElementById('updateCategoryName').value;
+
+        fetch(apiBase + '/updateCategoryNameById', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id, name }),
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Category Updated');
+                getCategories();
+            } else {
+                alert('Failed to update category');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating category:', error);
+        });
+    }
+
+    const productApiBase = 'http://192.168.47.100:8081/api/products';
+
+    function addProduct() {
+        const name = document.getElementById('productName').value;
+        const description = document.getElementById('productDescription').value;
+        const price = document.getElementById('productPrice').value;
+        const categoryId = document.getElementById('productCategoryId').value;
+
+        fetch(productApiBase + '/addProduct', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, description, price, categoryId }),
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Product added');
+                getAllProducts();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function getAllProducts() {
+        fetch( productApiBase + '/getAllProducts' )
+        .then(response => response.json())
+        .then(data => {
+            const list = document.getElementById('productList');
+            list.innerHTML = '';
+            data.forEach(prod => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <strong>Product Id: ${prod.id}</strong>             <br>
+                    <strong>Product Name: ${prod.name}</strong>         <br>
+                    <strong>Description: ${prod.description}</strong>   <br>
+                    <strong>CategoryID: ${prod.categoryId}</strong>     <br>
+                    <strong>Price:${prod.price}</strong>
+                    `;
+                list.appendChild(li);
+            });
+        });
+    }
+
+    function getProductById() {
+        const id = document.getElementById('productId').value;
+
+        fetch(`${productApiBase}/getProductById/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Product not found');
+            }
+            return response.json();
+        })
+        .then(prod => {
+            const display = document.getElementById('productDisplay');
+            display.innerHTML = `
+                <p><strong>ID:</strong> ${prod.id}</p>
+                <p><strong>Name:</strong> ${prod.name}</p>
+                <p><strong>Description:</strong> ${prod.description}</p>
+                <p><strong>Price:</strong> ${prod.price}</p>
+                <p><strong>Category ID:</strong> ${prod.categoryId}</p>`;
+        })
+        .catch(error => {
+            //console.error('Error:', error);
+            document.getElementById('productDisplay').innerHTML = 'Product not found';
+        });
+    }
+
+    function deleteProduct() {
+        const id = document.getElementById('productIdToDelete').value;
+
+        fetch(`${productApiBase}/deleteProductById/${id}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Product deleted');
+                getAllProducts();
+            } else {
+                alert('Failed to delete product');
+            }
+        });
+    }
+
+    function updateProduct() {
+        const id = document.getElementById('updateProductId').value;
+        const name = document.getElementById('updateProductName').value;
+        const price = document.getElementById('updateProductPrice').value;
+        const description = document.getElementById('updateProductDescription').value;
+
+        fetch(`${productApiBase}/UpdateProductById`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id, name, price, description }),
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Product Updated');
+                getAllProducts();
+            } else {
+                alert('Failed to update Product');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating product:', error);
+        });
+    }
+
+</script>
+</body>
+</html>
