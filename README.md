@@ -1,7 +1,3 @@
-Sure — here’s a cleaned up and more polished version that you can paste directly into your repo’s `README.md`:
-
----
-
 # Product Management System
 
 A Java Spring Boot REST API for managing **Categories** and **Products**, featuring full CRUD capabilities, MySQL persistence, and role-based security. A simple HTML+JavaScript frontend is also included.
@@ -161,5 +157,3 @@ Application will start at:
 👉 [http://localhost:8081](http://localhost:8081)
 
 ---
-
-Would you like me to also include sample `curl` requests or the Swagger usage section?
